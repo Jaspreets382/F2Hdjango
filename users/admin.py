@@ -4,7 +4,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
-    list_display = (
+    list_display = ('id',
         'username',
         'is_farmer',
         'phone_number',

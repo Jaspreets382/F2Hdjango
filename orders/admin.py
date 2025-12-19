@@ -3,6 +3,6 @@ from .models import Order
 # Register your models here
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display=('buyer','status','created_at','total_price')
+    list_display=('id','buyer','status','created_at','total_price')
     list_filter=('status',"created_at")
     search_fields=('buyer',)

@@ -13,7 +13,7 @@ class Order(models.Model):
         on_delete=models.CASCADE,
         related_name="orders"
     )
-    # products=models.ManyToManyField()
+    
     total_price = models.IntegerField(default=0)
     status = models.CharField(
         max_length=20,
