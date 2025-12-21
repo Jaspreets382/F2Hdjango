@@ -21,3 +21,15 @@ def create_order(request):
     if request.method=="GET":
         count = Order.objects.filter(buyer=request.user).count()
         return Response({"your_orders": count})    
+    
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def order_detail(request,order_id):
+    try:
+        order=Order.objects.get(id=order_id,
+                                buyer=request.user)
+    except Order.DoesNotExist:
+        return Response({"error":"Order not found"},
+                        status=status.HTTP_404_NOT_FOUND)
+    serializer=OrderSerializer(order)
+    return Response(serializer.data)
