@@ -1,9 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view,permission_classes
-from .serializers import OrderSerializer
+from .serializers import OrderSerializer,FarmerDashboardSerializer
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from .models import Order
+from orderitem.models import OrderItem
 # Create your views here.
 
 @api_view(["POST","GET"])
@@ -33,3 +34,19 @@ def order_detail(request,order_id):
                         status=status.HTTP_404_NOT_FOUND)
     serializer=OrderSerializer(order)
     return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_farmer_dashboard(request):
+    if request.user.is_farmer==False:
+        return Response({"error":"Not allowed"},status=status.HTTP_403_FORBIDDEN)
+    
+    status_param=request.query_params.get("status")
+    products=OrderItem.objects.filter(product_id__farmer=request.user).order_by("-order__created_at")
+    
+    if status_param:
+        products=products.filter(status=status_param).order_by("-order__created_at")
+    serializer=FarmerDashboardSerializer(products,many=True)
+    return Response (serializer.data,status=status.HTTP_200_OK)
+        

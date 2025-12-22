@@ -16,3 +16,4 @@ class OrderItemSerializer(serializers.ModelSerializer):
                 'status']
         
         read_only_fields=['price_at_time']
+

@@ -8,9 +8,9 @@ class OrderItem(models.Model):
         on_delete=models.CASCADE,
         related_name="items"
     )
-    STATUS_CHOICES=[("Pending","PENDING"),
-                    ("Confirmed","CONFIRMED"),
-                    ("Deliverd","DELIVERED")
+    STATUS_CHOICES=[("PENDING","Pending"),
+                    ("CONFIRMED","Confirmed"),
+                    ("DELIVERED","Delivered")
                     ]
 
     product_id = models.ForeignKey(
@@ -30,4 +30,4 @@ class OrderItem(models.Model):
     
 
     def __str__(self):
-        return f"{self.quantity_kg}kg of {self.product.name}"
+        return f"{self.quantity_kg}kg of {self.product_id.name}"

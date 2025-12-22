@@ -5,6 +5,6 @@ from .models import OrderItem,Order
 # admin.site.register(Order)
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display=('order','product_id','quantity_kg','price_at_time')
+    list_display=('id','order','product_id','quantity_kg','price_at_time','status')
 
  
