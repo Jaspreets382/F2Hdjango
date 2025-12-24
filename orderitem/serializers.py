@@ -3,7 +3,7 @@ from .models import OrderItem
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name=serializers.CharField(
-        source="product.name",
+        source="product_id .name",
         read_only=True
     )
     class Meta:
@@ -17,3 +17,24 @@ class OrderItemSerializer(serializers.ModelSerializer):
         
         read_only_fields=['price_at_time']
 
+        def validate_quantity_kg(self, value):
+            if value <= 0:
+                raise serializers.ValidationError("Quantity must be greater than 0")
+            return value
+
+
+class OrderItemHistorySerializer(serializers.ModelSerializer):
+    product_name = serializers.CharField(
+        source="product_id.name",
+        read_only=True
+    )
+
+    class Meta:
+        model = OrderItem
+        fields = [
+            "id",
+            "product_name",
+            "quantity_kg",
+            "price_at_time",
+            "status",
+        ]

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Order
 from orderitem.models import OrderItem
-from orderitem.serializers import OrderItemSerializer
+from orderitem.serializers import OrderItemSerializer,OrderItemHistorySerializer
 from products.models import Product
 
 class OrderSerializer(serializers.ModelSerializer):
@@ -44,4 +44,17 @@ class FarmerDashboardSerializer(serializers.ModelSerializer):
             "order_status",
             "order_created_at",
         ]
-        
+
+class FarmerDashSummarySerializer(serializers.Serializer):
+    total_items = serializers.IntegerField()
+    pending_items = serializers.IntegerField()
+    confirmed_items = serializers.IntegerField()
+    delivered_items = serializers.IntegerField()
+    cancelled_items=serializers.IntegerField()
+
+class OrderHistorySerializer(OrderSerializer):
+    items = OrderItemHistorySerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ["id", "created_at", "status", "total_price", "items"]

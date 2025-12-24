@@ -4,10 +4,10 @@ from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-
+from users.permissions import IsBuyer,IsFarmer
 # Create your views here.
 @api_view(["POST"])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated,IsBuyer])
 def choose_item(request,order_id):
     try:
         order=Order.objects.get(id=order_id,buyer=request.user)
@@ -24,7 +24,7 @@ def choose_item(request,order_id):
     return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["PATCH"])
-@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated,IsFarmer])
 def update_order_item_status(request,item_id):
     try:
         item=OrderItem.objects.get(id=item_id)
