@@ -10,7 +10,8 @@ class OrderItem(models.Model):
     )
     STATUS_CHOICES=[("PENDING","Pending"),
                     ("CONFIRMED","Confirmed"),
-                    ("DELIVERED","Delivered")
+                    ("DELIVERED","Delivered"),
+                    ("CANCELLED","Cancelled")
                     ]
 
     product_id = models.ForeignKey(
@@ -19,12 +20,16 @@ class OrderItem(models.Model):
     )
 
     quantity_kg = models.PositiveIntegerField()
-    price_at_time = models.PositiveIntegerField()
+    price_at_time = models.DecimalField(
+        max_digits=10,
+        decimal_places=2
+    )
     
     status=models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default="Pending"
+        default="PENDING",
+        db_index=True
     )
 
     

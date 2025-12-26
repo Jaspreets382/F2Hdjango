@@ -12,14 +12,13 @@ from users.permissions import IsFarmer,IsBuyer
 @permission_classes([IsAuthenticated,IsBuyer])
 def create_order(request):
     if request.method=='POST':
-        # if request.user.is_farmer==True:
-        #     return Response (status=status.HTTP_403_FORBIDDEN)
         
-            order=OrderSerializer(data=request.data)
-            if order.is_valid():
-                
-                order.save(buyer=request.user)
-                return Response(order.data,status=status.HTTP_201_CREATED)
+        order=Order.objects.create(buyer=request.user)
+        serializer=OrderSerializer(data=order)
+        if serializer.is_valid():
+            serializer.save(buyer=request.user)
+        return Response({"message":"Your order has been created"},
+                        status=status.HTTP_201_CREATED)
     if request.method=="GET":
         count = Order.objects.filter(buyer=request.user).count()
         return Response({"your_orders": count})    
@@ -50,13 +49,11 @@ def get_farmer_dashboard(request):
         products=products.filter(status=status_param).order_by("-order__created_at")
     serializer=FarmerDashboardSerializer(products,many=True)
     return Response (serializer.data,status=status.HTTP_200_OK)
-        
+
+
 @api_view(["GET"])
 @permission_classes([IsAuthenticated,IsFarmer])
 def get_summary(request):
-    # if request.user.is_farmer==False:
-    #     return Response({"error":"Not allowed"},status=status.HTTP_403_FORBIDDEN)
-
     items=OrderItem.objects.filter(product_id__farmer=request.user)
     data={"total_items":items.count(),
     "pending_items":items.filter(status="Pending").count(),
@@ -69,11 +66,9 @@ def get_summary(request):
     return Response(serializer.data,status=status.HTTP_200_OK)
 
 @api_view(["GET"])
-@permission_classes({IsAuthenticated,IsBuyer})
+@permission_classes([IsAuthenticated,IsBuyer])
 def get_order_history(request):
-    # if request.user.is_farmer==True:
-    #     return Response({"error":"Not allowed"},status=status.HTTP_403_FORBIDDEN)
-    
+
     orders=Order.objects.filter(buyer=request.user)
     serializer=OrderHistorySerializer(orders,many=True)
     return Response(serializer.data,status=status.HTTP_200_OK)

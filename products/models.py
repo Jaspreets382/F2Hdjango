@@ -10,18 +10,27 @@ class Product(models.Model):
         limit_choices_to={"is_farmer":True}
         )    
     name=models.CharField(max_length=50)
+
     description=models.TextField(max_length=200,blank=True)
-    price=models.IntegerField()
+
+    price = models.DecimalField(
+    max_digits=10,
+    decimal_places=2 )
+
     quantity=models.IntegerField()
+    
     photo = models.ImageField(upload_to="products/", blank=True, null=True)   
+
     harvest_date=models.DateField()
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
+
+    created_at = models.DateTimeField(auto_now_add=True,db_index=True)
+    
+    is_active = models.BooleanField(default=True,db_index=True)
 
 
 
     def __str__(self):
-        return f'{self.name} and {self.price}'
+        return f'{self.name}- ₹{self.price}'
     
     def clean(self):
         if not self.farmer.is_farmer:
@@ -30,3 +39,4 @@ class Product(models.Model):
             raise ValidationError("Price must be positive")
         if self.quantity<=0:
             raise ValidationError("Quantity must be postive")
+        
