@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {FaPython,FaDocker,FaReact,FaDatabase}from 'react-icons/fa'
 function TechStack() {
   return (
     <>
@@ -7,17 +7,17 @@ function TechStack() {
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-center text-sm font-semibold text-gray-400 uppercase tracking-wider mb-6">Built with Modern Tech</p>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                <div class="flex justify-center text-3xl font-bold text-gray-700">
-                    <i class="fa-brands fa-python mr-2"></i> Django
+                <div class="flex  gap-2 justify-center text-3xl font-bold text-gray-700">
+                    <FaPython size={38}></FaPython> Django
                 </div>
-                <div class="flex justify-center text-3xl font-bold text-gray-700">
-                    <i class="fa-solid fa-database mr-2"></i> PostgreSQL
+                <div class="flex  gap-2 justify-center text-3xl font-bold text-gray-700">
+                    <FaDatabase size={38} ></FaDatabase> PostgreSQL
                 </div>
-                <div class="flex justify-center text-3xl font-bold text-gray-700">
-                    <i class="fa-brands fa-react mr-2"></i> React
+                <div class="flex gap-2  justify-center text-3xl font-bold text-gray-700">
+                    <FaReact size={38}></FaReact> React
                 </div>
-                <div class="flex justify-center text-3xl font-bold text-gray-700">
-                    <i class="fa-brands fa-docker mr-2"></i> Docker
+                <div class="flex gap-2 justify-center text-3xl font-bold text-gray-700">
+                    <FaDocker size={38}></FaDocker> Docker
                 </div>
             </div>
         </div>

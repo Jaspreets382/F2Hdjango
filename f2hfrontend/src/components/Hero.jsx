@@ -23,10 +23,10 @@ function Hero() {
                                 Farm2Home connects farmers directly to buyers. No middlemen, just fresh, organic produce and robust role-based management powered by Django.
                             </p>
                             <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                                <a href="#" class=" flex gap-2 px-8 py-4 bg-green-600 text-white rounded-full font-bold shadow-lg shadow-green-500/30 hover:bg-green-700 hover:scale-110 transition ease-in ">
+                                <a href="#" class=" flex gap-2 px-8 py-4 bg-green-600 text-white rounded-full font-bold shadow-lg shadow-green-500/30 hover:bg-green-700 hover:scale-110 transition ease-in-out duration-450  ">
                                 <Salad stroke='white'></Salad>  Find Produce
                                 </a>
-                                <a href="#" class="px-8 py-4 bg-white text-gray-800 border border-gray-200 rounded-full font-bold hover:bg-orange-400 hover:text-white hover:shadow-orange-500 shadow-lg hover:border-orange-5  00 transition ease-in flex items-center justify-center gap-2 z-10">
+                                <a href="#" class="px-8 py-4 bg-white text-gray-800 border border-gray-200 rounded-full font-bold hover:bg-orange-400 hover:text-white hover:shadow-orange-500 shadow-lg hover:border-orange-5  00 transition ease-in duration-300 flex items-center justify-center gap-2 z-10">
                                     <Tractor size={28}/> Sell Your Crops
                                 </a>
                             </div>
