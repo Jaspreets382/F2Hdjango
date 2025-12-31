@@ -1,5 +1,5 @@
 import { useContext } from "react"
-import { Search, Vegan } from "lucide-react"
+import { Search, Vegan,UserRound } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../auth/AuthContext"
 import {CgProfile}from 'react-icons/cg'
@@ -47,7 +47,7 @@ function Navbar() {
                     </>
                     ) : (
                         <> <div className="flex items-center m-2 gap-1">
-                            <CgProfile/>
+                            <UserRound/>
                             <span>Hi {user.first_name}</span>
                             <button onClick={handleDash}>Dashboard</button>
                         </div>
