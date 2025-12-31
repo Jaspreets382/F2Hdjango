@@ -3,7 +3,7 @@ import { Sprout,ShoppingBasket,Package } from 'lucide-react'
 function Workflow() {
   return (
 <>
-    <section id="how-it-works" class="py-24 bg-gray-50">
+    <section id="how-it-works" className="py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center max-w-3xl mx-auto mb-16 reveal">
                 <h2 className="text-green-600 font-bold tracking-wide uppercase text-sm mb-2" >Workflow</h2>

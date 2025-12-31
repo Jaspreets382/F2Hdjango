@@ -1,12 +1,14 @@
 from .serializers import UserSerializer
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny,IsAuthenticated
 from rest_framework import status
 from django.contrib.auth import authenticate
 # Create your views here.
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def user_creation(request):
     serializer = UserSerializer(data=request.data)
     if serializer.is_valid():
@@ -23,6 +25,7 @@ def user_creation(request):
 
 
 @api_view(["POST"])
+@permission_classes([AllowAny])
 def login_user(request):
     username=request.data.get("username")
     password=request.data.get("password")
@@ -40,5 +43,12 @@ def login_user(request):
     token,_=Token.objects.get_or_create(user=user)
     return Response({"token":token.key,
                     "user_id":user.id,
+                    "first_name":user.first_name,
+                    "username":user.username,
                     'is_farmer':user.is_farmer},status=status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def logout_user(request):
+    request.user.auth_token.delete()
+    return Response({"message": "Logged out successfully"})

@@ -9,6 +9,7 @@ class UserAdmin(DjangoUserAdmin):
         'is_farmer',
         'phone_number',
         'address',
+        'email'
     )
 
     list_filter = ('is_farmer',)
