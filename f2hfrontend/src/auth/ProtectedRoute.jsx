@@ -21,6 +21,9 @@ function ProtectedRoute({
     if(farmerOnly && !user.is_farmer){
         navigate('/')
     }
+    if(farmerOnly && !user.is_farmer){
+        navigate('/')
+    }
 
   return children
 }

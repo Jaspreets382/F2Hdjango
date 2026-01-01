@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { farmerDash } from '../services/farmerServices'
+import React, { useContext, useEffect, useState } from 'react'
+import { changeStatus, farmerDash } from '../services/farmerServices'
+import { AuthContext } from '../auth/AuthContext'
+import { Link } from 'react-router-dom'
 
 function FarmerDash() {
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
+    const { user } = useContext(AuthContext)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -22,6 +25,21 @@ function FarmerDash() {
         }
         fetchData()
     }, [])
+
+    const handleStatus = async (itemId, status) => {
+        try {
+            const updateStatus = await changeStatus(itemId, status)
+            setOrders(prevOrders => prevOrders.map(order => order.id == itemId ?
+                { ...order, status: updateStatus.status }
+                : order))
+                console.log(updateStatus.status)
+        }
+        catch (error) {
+            console.log(error)
+        }
+
+    }
+
 
     if (loading) return <h2>Loading DashBoard...</h2>
     if (error) return <h2>{error}</h2>
@@ -42,11 +60,26 @@ function FarmerDash() {
                         <span>Product Name : {orderData.product_name}</span>
                         <span>Quantity : {orderData.quantity_kg} kg</span>
                         <span>Price : ₹{orderData.price_at_time}</span>
-                        <span>Status : {orderData.status}</span>
+                        <label className="font-semibold mr-2">Status: {orderData.status}</label>
+                        <select className='border-2'
+                            value={orderData.status}
+                            onChange={e => handleStatus(orderData.id, e.target.value)}>
+                            
+                                <option value="PENDING">Pending</option>
+                                <option value="CONFIRMED">Confirm</option>
+                                <option value="DELIVERED">Delivered</option>
+                                <option value="CANCELLED">Cancel </option>
+
+
+
+                        </select>
+
                     </div>
 
                 ))
             )}
+
+            <Link to={'/dashboard/summary'}>Summary</Link>
         </>
     )
 }

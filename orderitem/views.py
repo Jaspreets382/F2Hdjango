@@ -75,21 +75,7 @@ def update_order_item_status(request, item_id):
 
     if serializer.is_valid():
         serializer.save()
-        recalculate_order_status(item.order)
+        
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-def recalculate_order_status(order):
-    items = order.items.all()
-    if all(item.status == "DELIVERED" for item in items):
-        order.status = "DELIVERED"
-
-    elif any(item.status=="CANCELLED" for item in items):
-        order.status="CANCELLED"
-
-    elif all(item.status == "CONFIRMED" for item in items):
-        order.status = "CONFIRMED"
-    else:
-        order.status = "PENDING"
-
-    order.save()

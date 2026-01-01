@@ -13,14 +13,7 @@ const registerUser=async(credentials)=>{
 }
 
 const logoutUser=async()=>{
-    const token=localStorage.getItem("token")
-    if (!token) return;
-    await API.post('users/logout/',{},{
-        headers:{
-            Authorization:`Token ${token}`
-        }
-    }
-)
+    await API.post('users/logout/')
 localStorage.clear()
 }   
 

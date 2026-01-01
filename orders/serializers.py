@@ -16,7 +16,7 @@ class OrderSerializer(serializers.ModelSerializer):
                             read_only=True)
     class Meta:
         model=Order
-        fields=['id','buyer_name','created_at','status','total_price','items']
+        fields=['id','buyer_name','created_at','total_price','items']
 
     def get_total_price(self,obj):
 
@@ -30,7 +30,6 @@ class FarmerDashboardSerializer(serializers.ModelSerializer):
     order_id = serializers.IntegerField(source="order.id", read_only=True)
     buyer_name = serializers.CharField(source="order.buyer.username", read_only=True)
     product_name = serializers.CharField(source="product_id.name", read_only=True)
-    order_status = serializers.CharField(source="order.status", read_only=True)
     order_created_at = serializers.DateTimeField(source="order.created_at", read_only=True)
 
     class Meta:
@@ -43,7 +42,6 @@ class FarmerDashboardSerializer(serializers.ModelSerializer):
             "quantity_kg",
             "price_at_time",
             "status",
-            "order_status",
             "order_created_at",
         ]
 
@@ -59,4 +57,4 @@ class OrderHistorySerializer(OrderSerializer):
 
     class Meta:
         model = Order
-        fields = ["id", "created_at", "status", "total_price", "items"]
+        fields = ["id", "created_at", "total_price", "items"]

@@ -73,3 +73,23 @@ def get_order_history(request):
     serializer=OrderHistorySerializer(orders,many=True)
     return Response(serializer.data,status=status.HTTP_200_OK)
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def cancel_order(request, order_id):
+    
+    order = Order.objects.get( id=order_id)
+
+    if order.buyer != request.user:
+        return Response(
+            {"error": "Not allowed"},
+            status=status.HTTP_403_FORBIDDEN
+        )
+
+    OrderItem.objects.filter(
+        order=order
+    ).exclude(
+        status="DELIVERED"
+    ).update(status="CANCELLED")
+
+    return Response({"message": "Order cancelled successfully"})
+

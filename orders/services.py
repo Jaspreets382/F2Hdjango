@@ -4,7 +4,7 @@ ROLE_BASED_TRANSITIONS = {
         "CONFIRMED": ["CANCELLED"],
     },
     "farmer": {
-        "PENDING": ["CONFIRMED"],
+        "PENDING": ["CONFIRMED","CANCELLED"],
         "CONFIRMED": ["DELIVERED"],
     }
 }
