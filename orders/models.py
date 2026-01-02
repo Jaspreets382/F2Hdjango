@@ -16,6 +16,8 @@ class Order(models.Model):
     default=0
         )
     
+    
+    
     created_at=models.DateTimeField(auto_now_add=True)
 
     def __str__(self): 
@@ -25,3 +27,4 @@ class Order(models.Model):
     def clean(self):
         if self.buyer.is_farmer:
             raise ValidationError("Farmers cannot place orders.")
+    

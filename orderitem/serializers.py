@@ -24,15 +24,6 @@ class OrderItemSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError("Quantity must be greater than 0")
             return value
         
-    def validate(self, attrs):
-            order = self.context.get("order")
-            if order and order.status == "CANCELLED":
-                raise serializers.ValidationError(
-                    "Cannot add items to a cancelled order"
-                    )
-            return attrs
-
-
 
 class OrderItemHistorySerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(

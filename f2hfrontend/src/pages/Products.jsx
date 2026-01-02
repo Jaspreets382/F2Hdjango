@@ -1,33 +1,106 @@
-import React, { useState,useEffect } from 'react'
-import { getProducts } from '../services/productService'
+import React, { useState, useEffect, useContext } from 'react'
+import { deleteProduct, getProducts } from '../services/productService'
+import ProductForm from '../components/ProductForm'
+import { createProduct, updateProduct } from '../services/productService'
+import {AuthContext} from '../auth/AuthContext'
+import { CartContext } from '../auth/CartContext'
+import { useNavigate } from 'react-router-dom'
+
 
 function Products() {
-    const [products, setProducts] = useState([])
+  const [products, setProducts] = useState([])
+  const [showForm, setShowForm] = useState(false)
+  const [editingProduct, setEditingProduct] = useState(null)
+  const {user} =useContext(AuthContext)
+  const {addToCart}=useContext(CartContext)
+  const navigate =useNavigate()
 
-    useEffect(()=>{
-        const func =async()=>{
-        const list=await getProducts()
-        console.log(list)
-        setProducts(list) 
-        
-        }
-        func()
-    },[])
+  useEffect(() => {
+    const func = async () => {
+      const list = await getProducts()
+      console.log(list)
+      setProducts(list)
+
+    }
+    func()
+  }, [])
+
+  const handleDelete = async (productId) => {
+    await deleteProduct(productId)
+    alert("Product Deleted")
+    setProducts(prev => prev.filter(product => product.id != productId))
+  }
+
+  const handleCart=()=>{
+    navigate('/cart')
+  }
+
   return (
-<>
-<h1 className='text-center font-bold text-2xl'> Products </h1>
-<div className='grid grid-cols-4 place-items-center'>
-    {products.map(product=> (<>
-    <div className='w-fit border-2 rounded-4xl bg-amber-300 m-4 p-4'>
-        <div> Listed By : {product.farmer_name}</div>
-        <p>{product.name}</p>
-        <p>{product.price}</p>
-        <p>{product.quantity}</p>
-        <p>{product.harvest_date}</p>
-    </div>
-    </>))}
-</div>
-</>
+    <>
+      <h1 className='text-center font-bold text-2xl'> Products </h1>
+     {user.is_farmer?(<button
+        className="bg-green-500 text-white px-4 py-2 rounded mb-4"
+        onClick={() => {
+          setEditingProduct(null)
+          setShowForm(true)
+        }}
+      >  Add Product </button>):(<></>)} 
+      {showForm && (
+        <ProductForm
+          initialData={editingProduct}
+          onCancel={() => {
+            setShowForm(false)
+            setEditingProduct(null)
+          }}
+          onSubmit={async (data) => {
+            if (editingProduct) {
+              // UPDATE
+              const updated = await updateProduct(editingProduct.id, data)
+              setProducts(prev =>
+                prev.map(p => p.id === updated.id ? updated : p)
+              )
+            } else {
+              // CREATE
+              const created = await createProduct(data)
+              setProducts(prev => [...prev, created])
+            }
+
+            setShowForm(false)
+            setEditingProduct(null)
+          }}
+        />
+      )}
+
+      <div className='grid grid-cols-4 place-items-center'>
+        {products.map(product => (<>
+          <div className='w-fit border-2 rounded-4xl bg-amber-300 m-4 p-4'>
+            <div> Listed By : {product.farmer_name}</div>
+            <p>{product.name}</p>
+            <p>{product.price}</p>
+            <p>{product.quantity}</p>
+            <p>{product.harvest_date}</p>
+            
+            {user.is_farmer?(<div className='flex gap-4'>
+              <button
+                 className='rounded-2xl bg-red-400 p-2'
+                  onClick={() => handleDelete(product.id)}>Delete
+                  </button>
+                  <button className="rounded-2xl bg-blue-400 p-2 mr-2"
+              onClick={() => {
+                setEditingProduct(product)
+                setShowForm(true)
+              }}
+            >
+              Edit
+            </button>
+                  </div>):(<div> <button className='p-2 bg-green-500 rounded-2xl' onClick={()=>addToCart(product)}>Add to Cart </button></div>)}
+            
+
+          </div>
+        </>))}
+        <button onClick={handleCart}>Cart</button>
+      </div>
+    </>
   )
 }
 

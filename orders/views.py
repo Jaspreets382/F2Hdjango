@@ -14,11 +14,8 @@ def create_order(request):
     if request.method=='POST':
         
         order=Order.objects.create(buyer=request.user)
-        serializer=OrderSerializer(data=order)
-        if serializer.is_valid():
-            serializer.save(buyer=request.user)
-        return Response({"message":"Your order has been created"},
-                        status=status.HTTP_201_CREATED)
+        serializer=OrderSerializer(order)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     if request.method=="GET":
         count = Order.objects.filter(buyer=request.user).count()
         return Response({"your_orders": count})    

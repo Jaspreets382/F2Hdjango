@@ -11,8 +11,7 @@ from orders.services import is_valid_transition
 @permission_classes([IsAuthenticated,IsBuyer])
 def choose_item(request,order_id):
     try:
-        order=Order.objects.get(id=order_id,buyer=request.user,
-                                status='PENDING')
+        order=Order.objects.get(id=order_id,buyer=request.user)
     except Order.DoesNotExist:
         return Response({"error":"Order not found"},status=status.HTTP_404_NOT_FOUND)
     

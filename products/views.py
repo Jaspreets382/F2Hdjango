@@ -20,4 +20,24 @@ def product_list_create(request):
             serializer.save(farmer=request.user)  # set farmer automatically
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["PATCH"])
+@permission_classes([IsAuthenticated])
+def edit_product(request,product_id):
+    if request.user.is_farmer ==False:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
         
+    product=Product.objects.get(id=product_id)
+    serializer=ProductSerializer(product,data=request.data,
+                                    partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_304_NOT_MODIFIED)
+        
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def delete_product(request,product_id):
+    product=Product.objects.get(id=product_id)
+    product.delete()
+    return Response("Product deleted", status=status.HTTP_200_OK)

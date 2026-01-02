@@ -46,7 +46,6 @@ function Orderhistory() {
         const gethistory = async () => {
             try {
                 const orders = await orderHistory()
-                console.log(orders)
                 setHistory(orders)
             }
             catch (error) {
