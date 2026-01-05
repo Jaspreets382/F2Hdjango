@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import { registerUser } from '../services/authService'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate,useSearchParams } from 'react-router-dom'
 function Register() {
     const navigate = useNavigate()
+    const [searchParams]=useSearchParams()
+    const role = searchParams.get("role");
     const [form, setForm] = useState({
         "username": '',
-
         "password": '',
         "first_name": '',
         "last_name": '',
         "email": '',
         "address": '',
-        "phone_number": ''
+        "phone_number": '',
+        "is_active":{role}
 
     })
     const handleSubmit = async (e) => {
@@ -36,6 +38,7 @@ function Register() {
                     <input className='border-2 bg-amber-200 w-sm' type="email" placeholder='Email' value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} />
                     <input className='border-2 bg-amber-200 w-sm' type="text" placeholder='Address' value={form.address} onChange={e => setForm({ ...form, address: e.target.value })} />
                     <input className='border-2 bg-amber-200 w-sm' type="text" placeholder='Phone Number' value={form.phone_number} onChange={e => setForm({ ...form, phone_number: e.target.value })} />
+                    
                     <button className='border-2 rounded-2xl bg-sky-200 p-2 m-2 h-15 w-30'>Register</button>
                 </form>
             </div>

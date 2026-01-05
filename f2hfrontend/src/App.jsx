@@ -21,6 +21,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />}></Route>
         <Route path='/login' element={<Login />}></Route>
+        
         <Route path='/register' element={<Register />}></Route>
         <Route path='/products' element={<Products/>}></Route>
         <Route path='/dashboard' element={<ProtectedRoute farmerOnly={true}><FarmerDash /></ProtectedRoute>} ></Route>

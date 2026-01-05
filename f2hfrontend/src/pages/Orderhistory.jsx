@@ -1,39 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { cancelOrder, orderHistory } from '../services/buyerServices'
 import { AuthContext } from '../auth/AuthContext'
-import { changeStatus } from '../services/farmerServices'
-
-// [
-//     {
-//         "id": 4,
-//         "created_at": "2025-12-19T16:21:23.313658Z",
-//         "status": "DELIVERED",
-//         "total_price": 240.0,
-//         "items": [
-//             {
-//                 "id": 3,
-//                 "product_name": "Tomato",
-//                 "quantity_kg": 2,
-//                 "price_at_time": "20.00",
-//                 "status": "DELIVERED"
-//             },
-//             {
-//                 "id": 4,
-//                 "product_name": "carrot",
-//                 "quantity_kg": 5,
-//                 "price_at_time": "20.00",
-//                 "status": "DELIVERED"
-//             },
-//             {
-//                 "id": 5,
-//                 "product_name": "carrot",
-//                 "quantity_kg": 5,
-//                 "price_at_time": "20.00",
-//                 "status": "DELIVERED"
-//             }
-//         ]
-//     }
-// ]
 
 function Orderhistory() {
     const [history, setHistory] = useState([])
@@ -73,6 +40,7 @@ function Orderhistory() {
         <>
             <h1 className='text-4xl font-bold text-center mb-10'>Orders</h1>
             {history.map((order) => (
+                order.items.length!=0?(
                 <div className='w-5xl border-2 mb-10 m-10 p-4 rounded-4xl'>
                     <div key={order.id} className="border p-4 mb-4 rounded-4xl flex justify-between">
                         <h3>Order #{order.id}</h3>
@@ -96,7 +64,7 @@ function Orderhistory() {
                     
 
 
-                </div>
+                </div>):(<></>)
             ))}
         </>)
 }

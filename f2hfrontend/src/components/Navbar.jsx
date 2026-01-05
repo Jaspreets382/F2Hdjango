@@ -2,18 +2,19 @@ import { useContext } from "react"
 import { Search, Vegan, UserRound } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { AuthContext } from "../auth/AuthContext"
-import { CgProfile } from 'react-icons/cg'
-function Navbar() {
+function Navbar({scrollToSection}) {
     const { user, logout } = useContext(AuthContext)
     const navigate = useNavigate()
     const handleLogout = async () => {
         await logout()
         console.log("Logged out ")
-        navigate('/login')
+        navigate('/')
     }
-    const handleDash = async () => {
-        navigate('/dashboard')
-    }
+const handleRef=()=>{
+    scrollToSection.current.scrollIntoView({
+        behavior:'smooth',
+    })
+}
     return (
         <>
             <nav className='fixed top-0 w-full z-50 glass shadow-sm transition-all duration-300 backdrop-blur-2xl'>
@@ -42,7 +43,7 @@ function Navbar() {
                         <Link to={'/login'}>Login</Link>
                     </div>
                         <div className="register  rounded-full m-2 font-bold hover:border-none hover:shadow-[0_0_20px_rgba(34,197,94,0.7)] hover:bg-green-300 hover:text-white duration-500  " >
-                            <Link to={'/register'}>Get Started</Link>
+                            <button onClick={handleRef}>Get Started</button>
                         </div>
                     </>
                     ) : (

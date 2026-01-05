@@ -9,7 +9,12 @@ from rest_framework.permissions import IsAuthenticated
 @permission_classes([IsAuthenticated])
 def product_list_create(request):
     if request.method=="GET":
-        products=Product.objects.filter(is_active=True).select_related("farmer")
+
+        if request.user.is_farmer:
+            products = Product.objects.filter(farmer=request.user)
+        else:
+            products = Product.objects.all().filter(is_active=True)
+
         serializer=ProductSerializer(products,many=True)
         return Response(serializer.data)
     if request.method == "POST":
@@ -17,7 +22,7 @@ def product_list_create(request):
             return Response(status=status.HTTP_403_FORBIDDEN)
         serializer = ProductSerializer(data=request.data,context={"request":request})
         if serializer.is_valid():
-            serializer.save(farmer=request.user)  # set farmer automatically
+            serializer.save(farmer=request.user) 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

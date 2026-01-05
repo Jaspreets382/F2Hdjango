@@ -12,13 +12,12 @@ function Checkout() {
         console.log(order)
 
         for (let item of cart) {
-            console.log(item)
             const set= await addOrderItem(order.id, item)
-            console.log(set)
-        }
 
+        }
+        console.log("Order Placed")
         clearCart()
-        // navigate('/history')
+        navigate('/history')
     }
 
     return (

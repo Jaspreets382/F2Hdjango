@@ -5,7 +5,8 @@ function ProductForm({ initialData, onSubmit, onCancel }) {
         name: "",
         price: "",
         quantity: "",
-        harvest_date: ""
+        harvest_date: "",
+        product_image: null
     })
 
     // Prefill when editing
@@ -24,10 +25,23 @@ function ProductForm({ initialData, onSubmit, onCancel }) {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        onSubmit(form)
+   const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const formData = new FormData()
+
+    formData.append("name", form.name)
+    formData.append("price", form.price)
+    formData.append("quantity", form.quantity)
+    formData.append("harvest_date", form.harvest_date)
+    formData.append("is_active","True")
+
+    if (form.product_image) {
+        formData.append("photo", form.product_image)
     }
+
+    onSubmit(formData)   
+}
 
     return (
         <div className="fixed inset-0 bg-black/40 flex justify-center items-center">
@@ -72,6 +86,14 @@ function ProductForm({ initialData, onSubmit, onCancel }) {
                     onChange={handleChange}
                     className="border w-full p-2"
                 />
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                        setForm({ ...form, product_image: e.target.files[0] })
+                    }
+                />
+
 
                 <div className="flex justify-between">
                     <button

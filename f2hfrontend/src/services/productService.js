@@ -10,12 +10,22 @@ export const deleteProduct=async(productId)=>{
 }
 
 export const createProduct=async(data)=>{
-  const res=await API.post('products/',data)
+  const res=await API.post('products/',data,{
+    headers:{
+      'Content-Type':"multipart/form-data"
+    }
+  })
   return res.data
 
 }
 
 export const updateProduct=async(productId,data)=>{
-  const res = await API.patch(`products/${productId}/edit`,data)
+  const res = await API.patch(`products/${productId}/edit`,data,
+    {
+      headers:{
+        "Content-Type":"multipart/form-data"
+      }
+    }
+  )
   return res.data
 }

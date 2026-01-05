@@ -28,6 +28,19 @@ useEffect(() => {
   })
 }
 
+const decreaseQuantity=(product)=>{
+  setCart(prev=>{
+    const existing=prev.find(p=> p.id===product.id)
+    if (existing){
+      return prev.map(p=>
+        p.id=== product.id?
+        {...p,quantity:p.quantity-1}
+        :p
+      )
+    }
+  })
+}
+
   const removeFromCart = (id) => {
     setCart(prev => prev.filter(p => p.id !== id))
   }
@@ -35,7 +48,7 @@ useEffect(() => {
   const clearCart = () => setCart([])
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart ,decreaseQuantity}}
     >
       {children}
     </CartContext.Provider>
