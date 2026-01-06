@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect} from 'react'
 import { registerUser } from '../services/authService'
-import { useNavigate,useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 function Register() {
     const navigate = useNavigate()
-    const [searchParams]=useSearchParams()
-    const role = searchParams.get("role");
+    const location=useLocation()
+    const role = location.state?.role
+    const isFarmer=role==="true"
     const [form, setForm] = useState({
         "username": '',
         "password": '',
@@ -13,9 +14,14 @@ function Register() {
         "email": '',
         "address": '',
         "phone_number": '',
-        "is_active":{role}
+        "is_farmer": isFarmer
 
     })
+    useEffect(() => {
+  if (location.state?.role === undefined) {
+    navigate("/")
+  }
+}, []);
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {

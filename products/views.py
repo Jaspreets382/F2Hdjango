@@ -11,7 +11,7 @@ def product_list_create(request):
     if request.method=="GET":
 
         if request.user.is_farmer:
-            products = Product.objects.filter(farmer=request.user)
+            products = Product.objects.filter(farmer=request.user).filter(is_active=True)
         else:
             products = Product.objects.all().filter(is_active=True)
 

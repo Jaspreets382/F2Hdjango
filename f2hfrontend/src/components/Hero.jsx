@@ -1,6 +1,11 @@
 import React from 'react'
 import { Star, Carrot, Truck, Tractor, CircleCheck,Salad } from 'lucide-react';
-function Hero() {
+function Hero({scrollToSection}) {
+    const handleRef=()=>{
+    scrollToSection.current.scrollIntoView({
+        behavior:'smooth',
+    })
+}
     return (
 
         <>
@@ -23,12 +28,12 @@ function Hero() {
                                 Farm2Home connects farmers directly to buyers. No middlemen, just fresh, organic produce and robust role-based management powered by Django.
                             </p>
                             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                                <a href="#" className=" flex gap-2 px-8 py-4 bg-green-600 text-white rounded-full font-bold shadow-lg shadow-green-500/30 hover:bg-green-700 hover:scale-110 transition ease-in-out duration-450  ">
+                                <button onClick={handleRef} className=" flex gap-2 px-8 py-4 bg-green-600 text-white rounded-full font-bold shadow-lg shadow-green-500/30 hover:bg-green-700 hover:scale-110 transition ease-in-out duration-450  ">
                                 <Salad stroke='white'></Salad>  Find Produce
-                                </a>
-                                <a href="#" className="px-8 py-4 bg-white text-gray-800 border border-gray-200 rounded-full font-bold hover:bg-orange-400 hover:text-white hover:shadow-orange-500 shadow-lg hover:border-orange-5  00 transition ease-in duration-300 flex items-center justify-center gap-2 z-10">
+                                </button>
+                                <button onClick={handleRef} className="px-8 py-4 bg-white text-gray-800 border border-gray-200 rounded-full font-bold hover:bg-orange-400 hover:text-white hover:shadow-orange-500 shadow-lg hover:border-orange-5  00 transition ease-in duration-300 flex items-center justify-center gap-2 z-10">
                                     <Tractor size={28}/> Sell Your Crops
-                                </a>
+                                </button>
                             </div>
                             <div className="mt-10 flex items-center justify-center lg:justify-start gap-6 text-sm text-gray-500">
                                 <div className="flex items-center gap-2">

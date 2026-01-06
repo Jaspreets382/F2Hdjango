@@ -6,7 +6,8 @@ function ProductForm({ initialData, onSubmit, onCancel }) {
         price: "",
         quantity: "",
         harvest_date: "",
-        product_image: null
+        product_image: null,
+        is_active:'true'
     })
 
     // Prefill when editing

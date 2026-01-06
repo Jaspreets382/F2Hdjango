@@ -5,12 +5,14 @@ function Home() {
   const btnSecRef=useRef(null)
   const navigate=useNavigate()
   const handleRegister=(role)=>{
-    navigate(`/register?role=${role}`)
+    navigate('/register',{
+      state:{role},
+    })
   }
   return (
     <>
     <Navbar scrollToSection={btnSecRef}></Navbar>
-    <Hero></Hero>
+    <Hero scrollToSection={btnSecRef}></Hero>
     <TechStack></TechStack>
     <Workflow></Workflow>
     <MockUI></MockUI>

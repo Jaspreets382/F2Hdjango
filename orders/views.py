@@ -66,7 +66,7 @@ def get_summary(request):
 @permission_classes([IsAuthenticated,IsBuyer])
 def get_order_history(request):
 
-    orders=Order.objects.filter(buyer=request.user)
+    orders=Order.objects.filter(buyer=request.user).order_by('-created_at')
     serializer=OrderHistorySerializer(orders,many=True)
     return Response(serializer.data,status=status.HTTP_200_OK)
 

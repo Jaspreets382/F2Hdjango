@@ -14,6 +14,16 @@ API.interceptors.request.use(
   },
   (error) => Promise.reject(error)
 )
+API.interceptors.response.use(
+  res => res,
+  err => {
+    if (err.response?.status === 401) {
+      logout()
+    }
+    return Promise.reject(err)
+  }
+)
+
 
 
 export default API;

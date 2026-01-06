@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 function Products() {
   const [products, setProducts] = useState([])
+  const [addedProducts, setAddedProducts] = useState([])
   const [showForm, setShowForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const { user } = useContext(AuthContext)
@@ -36,6 +37,11 @@ function Products() {
   const handleCart = () => {
     navigate('/cart')
   }
+  const handleAddToCart = (product) => {
+    addToCart(product)
+    setAddedProducts(prev => [...prev, product.id])
+  }
+
 
   return (
     <>
@@ -74,7 +80,7 @@ function Products() {
           }}
         />
       )}
-      
+
       <div className='grid grid-cols-4 place-items-center'>
         {products.map(product => (<>
           <div className='w-fit border-2 rounded-4xl bg-amber-300 m-4 p-4'>
@@ -108,7 +114,23 @@ function Products() {
               >
                 Edit
               </button>
-            </div>) : (<div> <button className='p-2 bg-green-500 rounded-2xl' onClick={() => addToCart(product)}>Add to Cart </button></div>)}
+            </div>) : (<div>
+              {addedProducts.includes(product.id) ? (
+                <button
+                  className="p-2 bg-green-500 rounded-2xl"
+                  onClick={() => navigate("/cart")}
+                >
+                  View Cart
+                </button>
+              ) : (
+                <button
+                  className="p-2 bg-green-500 rounded-2xl"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  Add to Cart
+                </button>
+              )}
+            </div>)}
 
 
           </div>
