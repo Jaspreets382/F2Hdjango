@@ -9,19 +9,21 @@ import FarmerDash from './pages/FarmerDash'
 import DashSummary from './pages/DashSummary'
 import Orderhistory from './pages/Orderhistory'
 import Products from './pages/Products'
-import { CartContext, CartProvider } from './auth/CartContext'
+import {CartProvider } from './auth/CartContext'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
+import { Layout } from './components'
+
 function App() {
 
   return (
     <BrowserRouter>
       <AuthProvider>
     <CartProvider>
-      <Routes>
+      <Routes >
         <Route path='/' element={<Home />}></Route>
+        <Route element={<Layout/>}>
         <Route path='/login' element={<Login />}></Route>
-        
         <Route path='/register' element={<Register />}></Route>
         <Route path='/products' element={<Products/>}></Route>
         <Route path='/dashboard' element={<ProtectedRoute farmerOnly={true}><FarmerDash /></ProtectedRoute>} ></Route>
@@ -29,6 +31,7 @@ function App() {
         <Route path='/history' element={<Orderhistory />}></Route>
         <Route path='/cart' element={<Cart/>}></Route>
         <Route path='/checkout' element={<Checkout/>}></Route>
+        </Route>
 
 
 

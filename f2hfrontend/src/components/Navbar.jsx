@@ -10,7 +10,11 @@ function Navbar({scrollToSection}) {
         console.log("Logged out ")
         navigate('/')
     }
+
 const handleRef=()=>{
+     if (!scrollToSection?.current) {
+      return;
+    }
     scrollToSection.current.scrollIntoView({
         behavior:'smooth',
     })

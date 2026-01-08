@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { CartContext } from "../auth/CartContext"
 import { useNavigate } from "react-router-dom"
+import { Navbar,Footer } from "../components"
 
 function Cart() {
     const { cart, removeFromCart,addToCart,decreaseQuantity } = useContext(CartContext)
@@ -39,7 +40,7 @@ function Cart() {
                 onClick={() => navigate("/checkout")}
             >
                 Checkout
-            </button>
+            </button>   
         </>
     )
 }

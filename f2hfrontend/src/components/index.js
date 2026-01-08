@@ -5,5 +5,6 @@ import MockUI from './MockUI'
 import Workflow from './Workflow'
 import TechStack from './TechStack'
 import Navbar from './Navbar'
+import Layout from './Layout'
 
-export {Footer,CTA,Hero,MockUI,Workflow,TechStack,Navbar}
+export {Footer,CTA,Hero,MockUI,Workflow,TechStack,Navbar,Layout}

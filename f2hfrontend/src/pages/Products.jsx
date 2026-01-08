@@ -17,11 +17,15 @@ function Products() {
   const navigate = useNavigate()
 
   useEffect(() => {
+  if (!user) {
+    navigate('/login')
+  }
+}, [user, navigate])
+
+  useEffect(() => {
     const func = async () => {
       const list = await getProducts()
-      console.log(list)
       setProducts(list)
-
     }
     func()
   }, [])
@@ -42,9 +46,13 @@ function Products() {
     setAddedProducts(prev => [...prev, product.id])
   }
 
+if(!user)
+  return null
+
 
   return (
     <>
+    
       <h1 className='text-center font-bold text-2xl'> Products </h1>
       {user.is_farmer ? (<button
         className="bg-green-500 text-white px-4 py-2 rounded mb-4"
@@ -139,6 +147,7 @@ function Products() {
       </div>
     </>
   )
+  
 }
 
 export default Products
