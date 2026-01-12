@@ -38,7 +38,7 @@ function Login() {
             <div className="absolute top-20 right-30 w-62 h-62 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
             <div className="absolute top-180 right-0 w-62 h-62 bg-sky-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
             <div className="absolute -bottom-22 left-8 w-72 h-72 z-0 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
-            <div className="absolute -bottom-58 left-8 w-72 h-72 z-0 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+            <div className="absolute -bottom-8 left-10 w-72 h-72 z-0 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
             <div className="absolute top-200 right-30 w-62 h-62 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
 
             <main className=" my-18 mx-auto w-full max-w-5xl bg-white rounded-3xl shadow-soft overflow-hidden flex flex-col md:flex-row min-h-150 ">
@@ -120,7 +120,7 @@ function Login() {
                                     <input type="password" id="password" name="password" required
                                         className="w-full pl-10 pr-10 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:border-green-500 focus:ring-2 focus:ring-green-100 outline-none transition duration-200"
                                         placeholder="••••••••" onChange={e => setForm({ ...form, password: e.target.value })} />
-                                    <button type="button" onClick="togglePassword()"
+                                    <button type="button" 
                                         className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer">
                                         <i id="eyeIcon" className="fa-regular fa-eye"></i>
                                     </button>
@@ -158,7 +158,7 @@ function Login() {
                     <p className="text-xs text-gray-300">Redirecting to dashboard...</p>
                 </div>
             </div>
-{error?( <div className='m-4 p-4 border-2 rounded-2xl bg-amber-600 text-white w-max'>{error}</div>):(null)}
+{error?( <div className='m-4 p-4 border-2 rounded-2xl bg-amber-600 text-white w-max absolute right-0 top-0'>{error}</div>):(null)}
            
             </div>
 

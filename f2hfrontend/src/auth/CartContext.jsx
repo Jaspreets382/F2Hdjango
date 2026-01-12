@@ -32,8 +32,9 @@ const decreaseQuantity=(product)=>{
   setCart(prev=>{
     const existing=prev.find(p=> p.id===product.id)
     if (existing){
+      
       return prev.map(p=>
-        p.id=== product.id?
+        p.id=== product.id&& product.quantity!=1?
         {...p,quantity:p.quantity-1}
         :p
       )

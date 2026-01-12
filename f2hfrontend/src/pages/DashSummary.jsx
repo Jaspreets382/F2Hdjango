@@ -21,18 +21,24 @@ function DashSummary() {
         getSummary()
     },[])
 
-    if (loading) return <h1 className='text-4xl'>Loading Summary ...</h1>
+    if (loading) return <h1 className='border-2 border-white bg-linear-to-r from-yellow-200 via-lime-300 to-green-400 shadow-2xl mb-10 shadow-gray-500 rounded-2xl text-center text-4xl font-extrabold'>Loading Summary ...</h1>
     if(error)return <h1>{error}</h1>
 
     return (
     <>
-    <h1 className='text-4xl font-bold' >Summary </h1>
-    <div className='h-auto w-max border-2 rounded-4xl p-4 mt-10'>
+    <div className='border-2 border-white bg-linear-to-r from-yellow-200 via-lime-300 to-green-400 shadow-2xl mb-10 shadow-gray-500 rounded-2xl'>
+    <h1 className='text-4xl  text-center text-emerald-700 font-extrabold ' >Summary </h1>
+    <div className='h-auto p-4 mt-10   font-black flex gap-15' >
+        <div>
     <span> Total items : {summary.total_items}</span> <br />
     <span> Pending items : {summary.pending_items}</span>   <br /> 
     <span> Confirmed items : {summary.confirmed_items}</span> <br />
+    </div>
+    <div>
     <span> Delivered items : {summary.delivered_items}</span> <br />
     <span> Cancelled items : {summary.cancelled_items}</span> <br />
+    </div>
+    </div>
     </div>
     </>
     )   
