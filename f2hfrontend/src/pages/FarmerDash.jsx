@@ -1,22 +1,27 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { changeStatus, farmerDash } from '../services/farmerServices'
-import { AuthContext } from '../auth/AuthContext'
-import { Link } from 'react-router-dom'
+import { AuthContext } from '../Context/AuthContext'
+import { Link, useNavigate } from 'react-router-dom'
 import { FaFirstOrderAlt } from 'react-icons/fa'
 import DashSummary from './DashSummary'
-import {MdArrowForward}from 'react-icons/md'
-import {GiCrossMark}from 'react-icons/gi'
+import { MdArrowForward } from 'react-icons/md'
+import { GiCrossMark } from 'react-icons/gi'
+import { ChevronLeft } from 'lucide-react'
+import { useLoading } from '../Context/Loading'
 
 function FarmerDash() {
+    const { startLoading, stopLoading } = useLoading()
     const [orders, setOrders] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const { user } = useContext(AuthContext)
-    const [summary,setSummary]=useState(false)
+    const [summary, setSummary] = useState(false)
+    const navigate=useNavigate()
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                startLoading()
                 const data = await farmerDash()
                 console.log(data)
                 setOrders(data)
@@ -25,7 +30,9 @@ function FarmerDash() {
                 setError(error)
             }
             finally {
-                setLoading(false)
+                setTimeout(() => {
+                    stopLoading()
+                }, 1500);
             }
         }
         fetchData()
@@ -44,16 +51,18 @@ function FarmerDash() {
         }
 
     }
-    const handleSummary=()=>{
+    const handleSummary = () => {
         setSummary(!summary)
     }
 
 
-    if (loading) return <h2>Loading DashBoard...</h2>
+
     if (error) return <h2>{error}</h2>
 
     return (
         <>
+            <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500' onClick={() => navigate('/')}><ChevronLeft size={40} strokeWidth={3} stroke='white' /></button>
+
             <header className="relative py-10 px-6 text-center overflow-hidden rounded-3xl mb-8">
                 {/* Background Blobs for the Header */}
                 <div className="absolute top-0 left-1/4 w-64 h-64 bg-green-100 rounded-full blur-3xl opacity-40 -z-10"></div>
@@ -100,9 +109,9 @@ function FarmerDash() {
                         className="flex items-center justify-between p-6 bg-green-600 hover:bg-green-700 text-white rounded-2xl font-bold transition-all shadow-lg shadow-green-200 group"
                     >
                         <span>View Sales Summary</span>
-                        <span className="group-hover:translate-x-2 transition-transform">{summary?(<GiCrossMark/>):(<MdArrowForward/>)}</span>
+                        <span className="group-hover:translate-x-2 transition-transform">{summary ? (<GiCrossMark />) : (<MdArrowForward />)}</span>
                     </button>
-                    {summary?(<DashSummary/>):(null)}
+                    {summary ? (<DashSummary />) : (null)}
                 </section>
                 <section className='grid grid-cols-2 max-h-140 mb-10 overflow-y-auto overflow-x-hidden'>
                     {orders.length === 0 ? (
@@ -154,7 +163,7 @@ function FarmerDash() {
                                 <div className="flex items-center justify-between pt-4 border-t border-dashed border-gray-200">
                                     <div className="flex flex-col">
                                         <span className={`px-3 py-1 rounded-full text-xs font-bold w-fit ${orderData.status === 'DELIVERED' ? 'bg-green-100 text-green-700' :
-                                                orderData.status === 'CANCELLED' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
+                                            orderData.status === 'CANCELLED' ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-700'
                                             }`}>
                                             {orderData.status}
                                         </span>

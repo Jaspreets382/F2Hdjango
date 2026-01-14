@@ -1,29 +1,71 @@
-import { useContext, useState } from "react"
-import { Search, Vegan, UserRound } from "lucide-react"
+import { useContext, useState,useRef,useEffect } from "react"
+import { Search, Vegan, UserRound, ShoppingBasket } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
-import { AuthContext } from "../auth/AuthContext"
-function Navbar({scrollToSection}) {
+import { AuthContext } from "../Context/AuthContext"
+import { useLoading } from "../Context/Loading"
+function Navbar({ scrollToSection }) {
     const { user, logout } = useContext(AuthContext)
-    const[userInfo,setUserInfo]=useState(false)
+    const{startLoading,stopLoading}=useLoading()
+    const [userInfo, setUserInfo] = useState(false)
+
     const navigate = useNavigate()
+    const userMenuRef = useRef(null)
+
+    useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      userMenuRef.current &&
+      !userMenuRef.current.contains(event.target)
+    ) {
+      setUserInfo(false)
+    }
+  }
+
+  if (userInfo) {
+    document.addEventListener("mousedown", handleClickOutside)
+  }
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside)
+  }
+}, [userInfo])
+
+useEffect(() => {
+  const handleEsc = (e) => e.key === "Escape" && setUserInfo(false)
+  document.addEventListener("keydown", handleEsc)
+  return () => document.removeEventListener("keydown", handleEsc)
+}, [])  
+
+
     const handleLogout = async () => {
+        startLoading()
         await logout()
         console.log("Logged out ")
+        setTimeout(() => {
+            stopLoading()
+        }, 700);
         navigate('/')
     }
 
 
-const handleRef=()=>{
-     if (!scrollToSection?.current) {
-      return;
+    const handleRef = () => {
+        if (!scrollToSection?.current) {
+            return;
+        }
+        scrollToSection.current.scrollIntoView({
+            behavior: 'smooth',
+        })
     }
-    scrollToSection.current.scrollIntoView({
-        behavior:'smooth',
-    })
-}
+    const handleCart=()=>{
+        if(user?.is_farmer==false){
+        navigate('/cart')
+        }
+        else{ navigate('/')}
+       
+    }
     return (
         <>
-            <nav className='fixed top-0 w-full z-50 glass shadow-sm transition-all duration-300 backdrop-blur-2xl'>
+            <nav className='fixed top-0 w-full z-50 backdrop-blur-2xl bg-white/70 shadow-sm transition-all duration-300 '>
                 <div className=' flex items-center align-middle mx-16 '>
 
                     <div className="logo gap-2 flex h-18 items-center mx-4 ">
@@ -45,36 +87,41 @@ const handleRef=()=>{
                         <input className=' rounded-2xl m-1  focus:outline-none  caret-green-300 text-sm ' type="text" placeholder='Search' />
                     </div>
 
-                    {!user ? (<><div className=" login m-4 px-4 font-bold hover:shadow-[0_0_20px_rgba(107,205,230,0.7)] hover:bg-sky-300 hover:text-white duration-500 rounded-4xl p-2 ">
+                    {!user ? (<><div className=" login m-4 px-4 font-bold hover:shadow-[0_0_20px_rgba(107,205,230,0.7)] hover:bg-sky-300 hover:text-white duration-300 rounded-4xl p-2 ">
                         <Link to={'/login'}>Login</Link>
                     </div>
-                        <div className="register  rounded-full m-2 font-bold hover:border-none hover:shadow-[0_0_20px_rgba(34,197,94,0.7)] hover:bg-green-300 hover:text-white duration-500 p-2 " >
+                        <div className="register  rounded-full m-2 font-bold hover:border-none hover:shadow-[0_0_20px_rgba(34,197,94,0.7)] hover:bg-green-300 hover:text-white duration-300 p-2 " >
                             <button onClick={handleRef}>Get Started</button>
                         </div>
                     </>
                     ) : (
-                        <> <div className="flex items-center m-2 gap-1 border-2 border-white shadow-xl rounded-xl p-1 bg-green-500/50 text-white">
+                        <> <button onClick={() => setUserInfo(!userInfo)} className="flex items-center m-2 gap-1 border-2 border-white shadow-xl rounded-xl p-1 bg-green-500/50 text-white">
                             <UserRound />
                             <span>Hi {user.first_name}</span>
-
-
-                        </div>
-                            {user.is_farmer ? (
-                                <Link to={'/dashboard'} >Dashboard</Link>
-                            ) : (
-                                <Link className="border-2 p-1 rounded-2xl" to={'/history'} >Orders</Link>
-                            )}
-                            <button
-                                onClick={handleLogout}
-                                className="px-4 py-2 bg-red-400 text-white rounded-2xl cursor-pointer"
-
-                            >
-                                Logout
-                            </button>
-                            <button onClick={()=>navigate('/cart')}>Cart</button>
+                        </button>
+                            <button className="flex bg-black text-white font-bold p-1 rounded-2xl border-2 border-white shadow-xl" onClick={() => handleCart()}>
+                                <ShoppingBasket /> Cart</button>
                         </>
                     )}
                 </div>
+                {userInfo && user ? (<div  ref={userMenuRef} className="border-4 rounded-2xl  border-white shadow-2xl bg-white/60 absolute w-fit p-4 px-10 mt-2 right-30 z-20 flex flex-col gap-4 text-center">
+                    <Link className="" > User Info</Link>
+                    {user.is_farmer ? (
+
+                        <Link to={'/dashboard'} >Dashboard</Link>
+                    ) : (
+                        <Link className="  rounded-2xl" to={'/history'} >Orders</Link>
+                    )}
+
+                    <button
+                        onClick={handleLogout}
+                        className="px-4 py-2 bg-red-400 text-white rounded-2xl cursor-pointer"
+
+                    >
+                        Logout
+                    </button>
+                </div>) : (null)}
+
             </nav>
         </>
     )

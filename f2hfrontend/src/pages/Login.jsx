@@ -1,9 +1,12 @@
 import { useContext, useState } from 'react'
-import { AuthContext } from '../auth/AuthContext'
+import { AuthContext } from '../Context/AuthContext'
 import { loginUser, } from '../services/authService'
 import { Link, useNavigate } from 'react-router-dom'
+import { ChevronLeft } from 'lucide-react'
+import { useLoading } from '../Context/Loading'
 
 function Login() {
+    const {startLoading,stopLoading}=useLoading()
     const navigate = useNavigate()
     const { login, logout } = useContext(AuthContext)
     const [error, setError] = useState()
@@ -11,6 +14,7 @@ function Login() {
     const handleSubmit = async (e) => {
         try {
             e.preventDefault()
+            startLoading()
             const data = await loginUser(form)
             console.log(data)
             login(data)
@@ -25,6 +29,11 @@ function Login() {
             setError(err.response.data.error)
             console.log(error)
         }
+        finally{
+            setTimeout(() => {
+                stopLoading()
+            }, 1500);
+        }
     }
     
 
@@ -33,6 +42,8 @@ function Login() {
     return (
 
         <>
+                <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500 ' onClick={()=>navigate('/')}><ChevronLeft size={40} strokeWidth={3} stroke='white'/></button>
+
          <div className=' relative overflow-hidden '> 
             <div className="absolute top-0 left-50 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
             <div className="absolute top-20 right-30 w-62 h-62 bg-yellow-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>

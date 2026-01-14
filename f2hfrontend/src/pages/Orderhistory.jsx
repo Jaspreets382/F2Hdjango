@@ -1,19 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { cancelOrder, orderHistory } from '../services/buyerServices'
-import { AuthContext } from '../auth/AuthContext'
+import { AuthContext } from '../Context/AuthContext'
+import { ChevronLeft } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
+import { useLoading } from '../Context/Loading'
 
 function Orderhistory() {
     const [history, setHistory] = useState([])
     const [error, setError] = useState(null)
     const { user } = useContext(AuthContext)
+    const {startLoading,stopLoading}=useLoading()
+    const navigate =useNavigate()
 
     useEffect(() => {
         const gethistory = async () => {
             try {
+                startLoading()
                 const orders = await orderHistory()
                 setHistory(orders)
             } catch (error) {
                 setError(error)
+            }
+            finally{
+                setTimeout(() => {
+                    stopLoading()
+                }, 1500);
             }
         }
         gethistory()
@@ -37,7 +48,10 @@ function Orderhistory() {
     }
 
     return (
+        
         <div className='bg-[#F8FAFC] min-h-screen p-8'>
+                    <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500' onClick={()=>navigate('/')}><ChevronLeft size={40} strokeWidth={3} stroke='white'/></button>
+
             {/* Page Header */}
             <div className="relative py-12 text-center overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-green-100 rounded-full blur-[100px] opacity-50 -z-10"></div>

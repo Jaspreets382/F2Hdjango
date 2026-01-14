@@ -1,15 +1,16 @@
 import './App.css'
 import Home from './pages/Home'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import ProtectedRoute from './auth/ProtectedRoute'
-import { AuthProvider } from './auth/AuthContext'
+import { AuthProvider } from './Context/AuthContext'
+import { LoadingProvider } from './Context/Loading'
+import ProtectedRoute from './Context/ProtectedRoute'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import FarmerDash from './pages/FarmerDash'
 import DashSummary from './pages/DashSummary'
 import Orderhistory from './pages/Orderhistory'
 import Products from './pages/Products'
-import {CartProvider } from './auth/CartContext'
+import {CartProvider } from './Context/CartContext'
 import Cart from './pages/Cart'
 import Checkout from './pages/Checkout'
 import { Layout } from './components'
@@ -18,6 +19,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <LoadingProvider>
       <AuthProvider>
     <CartProvider>
       <Routes >
@@ -38,6 +40,7 @@ function App() {
       </Routes>
       </CartProvider>
       </AuthProvider>
+      </LoadingProvider>
     </BrowserRouter>
   )
 }

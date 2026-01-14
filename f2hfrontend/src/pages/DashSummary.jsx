@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { dashSummary } from '../services/farmerServices'
+import { ChevronLeft } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 
 function DashSummary() {
     const [summary,setSummary]=useState({})
     const [loading,setLoading]=useState(true)
     const [error,setError]=useState(null)
+    const navigate =useNavigate()
 
     useEffect(()=>{
         const getSummary=async()=>{
@@ -26,6 +29,7 @@ function DashSummary() {
 
     return (
     <>
+
     <div className='border-2 border-white bg-linear-to-r from-yellow-200 via-lime-300 to-green-400 shadow-2xl mb-10 shadow-gray-500 rounded-2xl'>
     <h1 className='text-4xl  text-center text-emerald-700 font-extrabold ' >Summary </h1>
     <div className='h-auto p-4 mt-10   font-black flex gap-15' >

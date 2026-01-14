@@ -1,12 +1,32 @@
 import React, { useState, useEffect } from 'react'
 import { registerUser } from '../services/authService'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
+import { ChevronLeft } from 'lucide-react';
+import { useLoading } from '../Context/Loading';
 function Register() {
 
-    const { useState } = React;
+    const { useState } = React;    
+        const navigate = useNavigate()
+        const{startLoading,stopLoading}=useLoading()
+        const location = useLocation()
+        const [role, setRole] = useState(false);
+        const Userrole = location.state?.role
+        const isFarmer = Userrole === "true" || role === 'true'
+        const [form, setForm] = useState({
+            "username": '',
+            "password": '',
+            "first_name": '',
+            "last_name": '',
+            "email": '',
+            "address": '',
+            "phone_number": '',
+            "is_farmer": isFarmer
+    
+        })
+        const [confirmPassword, setConfirmPasword] = useState('')
 
-    const [role, setRole] = useState(false);
     const [errors, setErrors] = useState({});
+    
 
     const validate = () => {
         const newErrors = {};
@@ -39,30 +59,15 @@ function Register() {
     };
 
 
-    const navigate = useNavigate()
-    const location = useLocation()
-    const Userrole = location.state?.role
-    const isFarmer = Userrole === "true" || role === 'true'
-    const [form, setForm] = useState({
-        "username": '',
-        "password": '',
-        "first_name": '',
-        "last_name": '',
-        "email": '',
-        "address": '',
-        "phone_number": '',
-        "is_farmer": isFarmer
-
-    })
-    const [confirmPassword, setConfirmPasword] = useState('')
-
     const handleSubmit = async (e) => {
+        startLoading()
         e.preventDefault()
         if (!validate()) {
             console.log('not verified')
             return;
         }
         try {
+            
             const data = await registerUser(form)
             console.log("Registered", data)
             navigate('/login')
@@ -70,9 +75,16 @@ function Register() {
         catch (error) {
             console.log(error.response?.data || error.message)
         }
+        finally{
+            setTimeout(() => {
+                stopLoading()
+            }, 1500);
+        }
     }
     return (
         <>
+                <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500' onClick={()=>navigate('/')}><ChevronLeft size={40} strokeWidth={3} stroke='white'/></button>
+
 <div className="relative min-h-screen overflow-hidden bg-neutral-200">
         <div>
             <div className="absolute top-0 left-50 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
@@ -157,6 +169,7 @@ function Register() {
                                         onChange={handleChange}
                                         className={`w-full px-4 py-3 rounded-lg border ${errors.phone_number ? 'border-red-500' : 'border-gray-300'} input-field transition`}
                                         placeholder="9999999999"
+                                        
                                     />
                                     {errors.phone_number && <p className="text-red-500 text-sm mt-1">{errors.phone_number}</p>}
                                 </div>
@@ -171,6 +184,7 @@ function Register() {
                                         onChange={handleChange}
                                         className={`w-full px-4 py-3 rounded-lg border ${errors.password ? 'border-red-500' : 'border-gray-300'} input-field transition`}
                                         placeholder="••••••••"
+                                        autoComplete='new-password'
                                     />
                                     {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
                                 </div>
@@ -184,6 +198,7 @@ function Register() {
                                         onChange={(e) => setConfirmPasword(e.target.value)}
                                         className={`w-full px-4 py-3 rounded-lg border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-300'} input-field transition`}
                                         placeholder="••••••••"
+                                        autoComplete='current-password'
                                     />
                                     {errors.confirmPassword && <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>}
                                 </div>
@@ -204,45 +219,88 @@ function Register() {
                         <div className="space-y-6">
                             <h3 className="text-xl font-bold text-green-800 ml-2">I am registering as a:</h3>
 
-                            <div
-                                className={` glass-card p-6 rounded-2xl mb-10 role-card ${role === false ? 'bg-green-200 border-2 border-green-500 shadow-[0_0_0_3px_rgba(76,175,80,0.2)]' : 'bg-white'} hover:scale-105 ease-in duration-150 hover:shadow-xl`}
-                                onClick={() => setRole(false)}
-                            >
-                                <div className="flex items-start space-x-4 ">
-                                    <div className="bg-green-100 p-3 rounded-full">
-                                        <i className="fas fa-shopping-basket text-green-700 text-2xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-xl font-bold text-green-800">Buyer</h4>
-                                        <p className="text-gray-600 font-semibold text-sm mt-1">Purchase fresh produce directly from local farmers</p>
-                                        <ul className="mt-3 text-gray-600 space-y-1">
-                                            <li className="flex items-center text-sm"><i className="fas fa-check text-green-500 mr-2"></i> Browse farm-fresh products</li>
-                                            <li className="flex items-center text-sm"><i className="fas fa-check text-green-500 mr-2"></i> Direct from farm to table</li>
-                                            <li className="flex items-center text-sm"><i className="fas fa-check text-green-500 mr-2"></i> Competitive pricing</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                            <div className="flex flex-col gap-6 max-w-2xl mx-auto p-4">
+  
+  {/* BUYER CARD */}
+  <div
+    onClick={() => setRole(false)}
+    className={`p-6 rounded-[2.5rem] cursor-pointer border-2 transition-all duration-500 ease-out relative overflow-hidden group
+      ${role === false 
+        ? 'bg-green-50 border-green-500 shadow-2xl shadow-green-100 -translate-y-2' 
+        : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:border-gray-300'
+      }`}
+  >
+    {/* Background Glow Blob (CSS Only) */}
+    <div className={`absolute -top-10 -right-10 w-32 h-32 bg-green-200 rounded-full blur-3xl transition-opacity duration-700 
+      ${role === false ? 'opacity-40' : 'opacity-0'}`}>
+    </div>
 
-                            <div
-                                className={`glass-card p-6 rounded-2xl role-card ${role === true ? 'bg-green-200 border-2 border-green-500 shadow-[0_0_0_3px_rgba(76,175,80,0.2)]' : 'bg-white'} hover:scale-105 ease-in duration-150 hover:shadow-xl  `}
-                                onClick={() => setRole(true)}
-                            >
-                                <div className="flex items-start space-x-4">
-                                    <div className="bg-green-100 p-3 rounded-full">
-                                        <i className="fas fa-tractor text-green-700 text-2xl"></i>
-                                    </div>
-                                    <div>
-                                        <h4 className="text-xl font-bold text-green-800">Farmer</h4>
-                                        <p className="text-gray-600 mt-1 text-sm font-semibold">Sell your harvest to customers nationwide</p>
-                                        <ul className="mt-3 text-gray-600 space-y-1">
-                                            <li className="flex items-center text-sm"><i className="fas fa-check text-green-500 mr-2"></i> Zero listing fees</li>
-                                            <li className="flex items-center text-sm"><i className="fas fa-check text-green-500 mr-2"></i> Direct customer relationships</li>
-                                            <li className="flex items-center text-sm"><i className="fas fa-check text-green-500 mr-2"></i> Fair trade platform</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+    <div className="flex items-start space-x-4 relative z-10">
+      <div className={`p-3 rounded-2xl transition-all duration-500 
+        ${role === false ? 'bg-green-600 text-white rotate-6' : 'bg-green-100 text-green-700'}`}>
+        <i className="fas fa-shopping-basket text-2xl"></i>
+      </div>
+      
+      <div className="flex-1">
+        <div className="flex justify-between items-center">
+          <h4 className={`text-xl font-black transition-colors duration-500 
+            ${role === false ? 'text-green-800' : 'text-gray-400'}`}>Buyer</h4>
+          
+          {/* Checkmark indicator */}
+          <i className={`fas fa-check-circle text-green-600 text-xl transition-all duration-500 transform
+            ${role === false ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}></i>
+        </div>
+        
+        <p className="text-gray-600 font-semibold text-sm mt-1">Purchase fresh produce directly from local farmers</p>
+        
+        <ul className={`mt-3 space-y-1 transition-all duration-500 
+          ${role === false ? 'opacity-100 translate-x-0' : 'opacity-40 -translate-x-2'}`}>
+          <li className="flex items-center text-sm font-bold text-gray-600"><i className="fas fa-check text-green-500 mr-2"></i> Browse farm-fresh products</li>
+          <li className="flex items-center text-sm font-bold text-gray-600"><i className="fas fa-check text-green-500 mr-2"></i> Direct from farm to table</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  {/* FARMER CARD */}
+  <div
+    onClick={() => setRole(true)}
+    className={`p-6 rounded-[2.5rem] cursor-pointer border-2 transition-all duration-500 ease-out relative overflow-hidden group
+      ${role === true 
+        ? 'bg-green-50 border-green-500 shadow-2xl shadow-green-100 -translate-y-2' 
+        : 'bg-white border-gray-100 shadow-sm hover:shadow-md hover:border-gray-300'
+      }`}
+  >
+    <div className={`absolute -top-10 -right-10 w-32 h-32 bg-green-200 rounded-full blur-3xl transition-opacity duration-700 
+      ${role === true ? 'opacity-40' : 'opacity-0'}`}>
+    </div>
+
+    <div className="flex items-start space-x-4 relative z-10">
+      <div className={`p-3 rounded-2xl transition-all duration-500 
+        ${role === true ? 'bg-green-600 text-white rotate-6' : 'bg-green-100 text-green-700'}`}>
+        <i className="fas fa-tractor text-2xl"></i>
+      </div>
+      
+      <div className="flex-1">
+        <div className="flex justify-between items-center">
+          <h4 className={`text-xl font-black transition-colors duration-500 
+            ${role === true ? 'text-green-800' : 'text-gray-400'}`}>Farmer</h4>
+          
+          <i className={`fas fa-check-circle text-green-600 text-xl transition-all duration-500 transform
+            ${role === true ? 'scale-100 opacity-100' : 'scale-0 opacity-0'}`}></i>
+        </div>
+        
+        <p className="text-gray-600 font-semibold text-sm mt-1">Sell your harvest to customers nationwide</p>
+        
+        <ul className={`mt-3 space-y-1 transition-all duration-500 
+          ${role === true ? 'opacity-100 translate-x-0' : 'opacity-40 -translate-x-2'}`}>
+          <li className="flex items-center text-sm font-bold text-gray-600"><i className="fas fa-check text-green-500 mr-2"></i> Zero listing fees</li>
+          <li className="flex items-center text-sm font-bold text-gray-600"><i className="fas fa-check text-green-500 mr-2"></i> Direct customer relationships</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
                             <div className="bg-green-100 border border-green-200 rounded-2xl p-5">
                                 <div className="flex">
                                     <i className="fas fa-info-circle text-green-600 text-xl mt-1 mr-3"></i>
