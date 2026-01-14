@@ -53,10 +53,10 @@ def get_farmer_dashboard(request):
 def get_summary(request):
     items=OrderItem.objects.filter(product_id__farmer=request.user)
     data={"total_items":items.count(),
-    "pending_items":items.filter(status="Pending").count(),
-    "delivered_items":items.filter(status="Delivered").count(),
-    "confirmed_items":items.filter(status="Confirmed").count(),
-    "cancelled_items":items.filter(status="Cancelled").count()
+    "pending_items":items.filter(status="PENDING").count(),
+    "delivered_items":items.filter(status="DELIVERED").count(),
+    "confirmed_items":items.filter(status="CONFIRMED").count(),
+    "cancelled_items":items.filter(status="CANCELLED").count()
     }
 
     serializer=FarmerDashSummarySerializer(data)
