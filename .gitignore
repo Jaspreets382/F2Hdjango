@@ -1,0 +1,25 @@
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Databases
+db.sqlite3
+
+# Folders for media/static (optional)
+media/
+# Virtual Environment
+venv/
+env/
+ENV/
+# Editor folders
+.vscode/
+.idea/
+*.swp
+*.swo
+# Django folders
+static/
+staticfiles/
+media/

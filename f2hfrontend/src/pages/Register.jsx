@@ -5,13 +5,11 @@ import { ChevronLeft } from 'lucide-react';
 import { useLoading } from '../Context/Loading';
 function Register() {
 
-    const { useState } = React;    
         const navigate = useNavigate()
         const{startLoading,stopLoading}=useLoading()
         const location = useLocation()
-        const [role, setRole] = useState(false);
-        const Userrole = location.state?.role
-        const isFarmer = Userrole === "true" || role === 'true'
+        const Userrole = location.state?.role===true
+        const [role, setRole] = useState(Userrole);
         const [form, setForm] = useState({
             "username": '',
             "password": '',
@@ -20,13 +18,15 @@ function Register() {
             "email": '',
             "address": '',
             "phone_number": '',
-            "is_farmer": isFarmer
+            "is_farmer": Userrole
     
         })
         const [confirmPassword, setConfirmPasword] = useState('')
 
     const [errors, setErrors] = useState({});
-    
+    useEffect(() => {
+   console.log("The current form state is:", form);
+}, [form]); // This fires AFTER the state has actually updated
 
     const validate = () => {
         const newErrors = {};
@@ -64,18 +64,16 @@ function Register() {
         e.preventDefault()
         if (!validate()) {
             console.log('not verified')
+            stopLoading()
             return;
         }
         try {
-            
             const data = await registerUser(form)
             console.log("Registered", data)
             navigate('/login')
-        }
-        catch (error) {
+        }catch (error) {
             console.log(error.response?.data || error.message)
-        }
-        finally{
+        } finally{
             setTimeout(() => {
                 stopLoading()
             }, 1500);
@@ -223,7 +221,10 @@ function Register() {
   
   {/* BUYER CARD */}
   <div
-    onClick={() => setRole(false)}
+    onClick={() => {setRole(false)
+        setForm(prev => ({ ...prev, is_farmer: false }));
+        
+    }}
     className={`p-6 rounded-[2.5rem] cursor-pointer border-2 transition-all duration-500 ease-out relative overflow-hidden group
       ${role === false 
         ? 'bg-green-50 border-green-500 shadow-2xl shadow-green-100 -translate-y-2' 
@@ -264,7 +265,10 @@ function Register() {
 
   {/* FARMER CARD */}
   <div
-    onClick={() => setRole(true)}
+    onClick={() => {setRole(true)
+        setForm(prev => ({ ...prev, is_farmer: true })); 
+       
+    }}
     className={`p-6 rounded-[2.5rem] cursor-pointer border-2 transition-all duration-500 ease-out relative overflow-hidden group
       ${role === true 
         ? 'bg-green-50 border-green-500 shadow-2xl shadow-green-100 -translate-y-2' 
