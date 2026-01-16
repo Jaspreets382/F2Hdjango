@@ -2,7 +2,7 @@ import axios from "axios";
 import { logoutUser } from "../services/authService";
 
 const API = axios.create({
-  baseURL: "https://f2hdjango.onrender.com",
+  baseURL: "https://f2hdjango.onrender.com/api",
   withCredentials: true,
 });
 
