@@ -31,7 +31,11 @@ SECRET_KEY =os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG =os.getenv("DEBUG")
 
-ALLOWED_HOSTS =["*"]
+ALLOWED_HOSTS = [
+    "your-backend.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
@@ -168,6 +172,13 @@ REST_FRAMEWORK = {
         "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://your-backend.onrender.com",
+]
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
