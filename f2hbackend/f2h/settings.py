@@ -29,7 +29,7 @@ SECRET_KEY =os.getenv("SECRET_KEY")
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG =os.getenv("DEBUG")
+DEBUG =os.getenv("DEBUG")=="True"
 
 ALLOWED_HOSTS = [
     "f2hdjango.onrender.com",
@@ -70,6 +70,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://f2-hdjango-32pg.vercel.app",
 ]
 CORS_ALLOW_METHODS = [
     "GET",
@@ -174,7 +175,8 @@ REST_FRAMEWORK = {
 }
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://your-backend.onrender.com",
+    "https://f2hdjango.onrender.com",
+
 ]
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
