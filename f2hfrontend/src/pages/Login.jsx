@@ -59,12 +59,7 @@ function Login() {
                     <div className="absolute top-0 right-0 -mr-20 -mt-20 w-80 h-80 rounded-full bg-white opacity-10 blur-3xl"></div>
                     <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-green-300 opacity-20 blur-3xl"></div>
 
-                    <div className="relative z-10">
-                        <a href="#" className="flex items-center gap-2 text-2xl font-bold tracking-tight">
-                            <i className="fa-solid fa-leaf text-green-200"></i>
-                            FreshMarket
-                        </a>
-                    </div>
+                
 
                     <div className="relative z-10 mt-10">
                         <h2 className="text-4xl lg:text-5xl font-bold leading-tight mb-4">
@@ -84,12 +79,7 @@ function Login() {
 
                 <section className="w-full md:w-1/2 p-10 lg:p-14 flex flex-col justify-center bg-green-100 relative">
 
-                    <div className="md:hidden mb-8 text-center">
-                        <a href="#" className="inline-flex items-center gap-2 text-2xl font-bold text-green-600 tracking-tight">
-                            <i className="fa-solid fa-leaf"></i>
-                            FreshMarket
-                        </a>
-                    </div>
+                    
 
                     <div className="max-w-md mx-auto w-full">
                         <div className="mb-8">

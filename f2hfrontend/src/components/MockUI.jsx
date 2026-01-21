@@ -42,7 +42,7 @@ function MockUI() {
                                 </div>
                             </div>
                         </div>
-                         <div className="order-1 lg:order-2 relative reveal">
+                         <div className="order-2 lg:order-2 relative ">
                         <div className=" absolute inset-0 bg-linear-to-tr from-green-500 to-yellow-400 rounded-3xl rotate-3 opacity-40"></div>
                         <div className="relative bg-white border border-gray-100 rounded-3xl shadow-2xl  p-6 md:p-10">
                             <div className="flex items-center justify-between mb-8">

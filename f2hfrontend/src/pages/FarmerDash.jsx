@@ -77,7 +77,7 @@ function FarmerDash() {
                 </p>
             </header>
 
-            <div className="flex gap-20 justify-evenly">
+            <div className="md:flex gap-20 justify-evenly pb-10">
                 {/* Left Section: Visual & Quick Stats */}
                 <section className="lg:col-span-5 flex flex-col gap-6  ">
                     <div className="relative group overflow-hidden rounded-[2.5rem] border-4 border-white shadow-2xl transition-all hover:shadow-green-100">
@@ -113,9 +113,9 @@ function FarmerDash() {
                     </button>
                     {summary ? (<DashSummary />) : (null)}
                 </section>
-                <section className='grid grid-cols-2 max-h-140 mb-10 overflow-y-auto overflow-x-hidden'>
+                <section className='grid  md:grid-cols-2 max-h-140 mb-10 overflow-y-auto overflow-x-hidden'>
                     {orders.length === 0 ? (
-                        <p>No orders yet</p>
+                        <p className='text-4xl h-40 p-4 m-4 border-2 rounded-4xl border-white shadow font-black bg-green-500 bg-clip-text text-transparent w-full'>No orders yet</p>
                     ) : (
                         orders.map((orderData) => (
                             <div
