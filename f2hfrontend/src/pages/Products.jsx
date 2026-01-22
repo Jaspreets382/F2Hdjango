@@ -140,7 +140,6 @@ function Products() {
       <main className='overflow-hidden bg-[#FDFCF7] '>
         <div className="fixed -top-20 -left-20 w-160 h-160 bg-green-200/30 rounded-full blur-[100px] -z-10" />
         <div className="fixed top-1/2 -right-20 w-120 h-120 bg-amber-200/50 rounded-full blur-[100px] -z-10" />
-        <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500' onClick={() => navigate('/')}><ChevronLeft size={40} strokeWidth={3} stroke='white' /></button>
 
 
         <div className='hidden  md:flex justify-between px-10 p-5'>

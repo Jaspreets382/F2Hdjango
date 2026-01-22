@@ -34,7 +34,6 @@ const total = cart.reduce(
 return(
 
     <div className="min-h-screen bg-[#fdfcf7] pt-24 pb-12 px-6">
-        <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500' onClick={() => navigate('/cart')}><ChevronLeft size={40} strokeWidth={3} stroke='white' /></button>
 
       {/* Background Artistic Blobs */}
       <div className="fixed top-20 left-10 w-72 h-72 bg-green-200/30 rounded-full blur-3xl -z-10 animate-pulse"></div>

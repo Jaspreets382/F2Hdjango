@@ -50,7 +50,6 @@ function Orderhistory() {
     return (
         
         <div className='bg-[#F8FAFC] min-h-screen p-8'>
-                    <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500' onClick={()=>navigate('/')}><ChevronLeft size={40} strokeWidth={3} stroke='white'/></button>
 
             {/* Page Header */}
             <div className="relative py-12 text-center overflow-hidden">
@@ -66,6 +65,7 @@ function Orderhistory() {
                     const isAllCancelled = order.items.every(item => item.status === "CANCELLED");
 
                     return order.items.length !== 0 && (
+                        <>
                         <div
                             key={order.id}
                             className={`relative bg-white rounded-[3rem] shadow-2xl shadow-slate-200/60 border border-white p-8 transition-all duration-500 ${isAllCancelled ? 'grayscale-[0.4] opacity-90' : ''}`}
@@ -106,15 +106,17 @@ function Orderhistory() {
                                     )}
                                 </div>
                             </div>
+
+                            
                             <hr />
                             <br />
 
                             {/* ORDER ITEMS GRID */}
                             <div className="relative z-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                                 {order.items.map(item => (
-                                    <div
+                                    <>                                    <div
                                         key={item.id}
-                                        className="group border border-slate-50 rounded-4xl p-6 bg-sky-200/30 hover:bg-white hover:shadow-xl hover:border-white transition-all duration-300"
+                                        className=" hidden md:block group border border-slate-50 rounded-4xl p-6 bg-sky-200/30 hover:bg-white hover:shadow-xl hover:border-white transition-all duration-300"
                                     >
                                         <div className="flex items-start justify-between mb-4">
                                             <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600 font-black">
@@ -142,10 +144,54 @@ function Orderhistory() {
                                                 <span className="text-slate-800 font-bold">₹{item.price_at_time}</span>
                                             </div>
                                         </div>
+                                        
                                     </div>
+<div
+  key={item.id}
+  className="md:hidden group relative flex items-center gap-4 p-4 mb-3 bg-white/60 backdrop-blur-md border border-white/50 rounded-3xl hover:shadow-lg transition-all active:scale-[0.98]"
+>
+  {/* 1. Left: Compact Leading Icon */}
+  <div className="shrink-0 w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-700 text-lg font-black shadow-inner">
+    {item.product_name[0].toUpperCase()}
+  </div>
+
+  {/* 2. Middle: Core Info */}
+  <div className="grow min-w-0">
+    <div className="flex items-center gap-2 mb-0.5">
+      <h4 className="font-black text-slate-800 text-base truncate capitalize">
+        {item.product_name}
+      </h4>
+      <span
+        className={`px-2 py-0.5 text-[8px] rounded-full font-black uppercase tracking-tighter
+        ${item.status === "DELIVERED" ? "bg-green-100 text-green-700" :
+          item.status === "CANCELLED" ? "bg-slate-100 text-slate-500" :
+          "bg-amber-100 text-amber-700"}`}
+      >
+        {item.status}
+      </span>
+    </div>
+    
+    <div className="flex items-center text-[11px] text-slate-500 font-bold gap-3">
+      <span>{item.quantity_kg} kg</span>
+      <span className="w-1 h-1 bg-slate-300 rounded-full"></span>
+      <span>₹{item.price_at_time}/kg</span>
+    </div>
+  </div>
+
+  {/* 3. Right: Total Amount */}
+  <div className="text-right shrink-0">
+    <p className="text-xs font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Total</p>
+    <p className="text-lg font-black text-green-600 tracking-tighter">
+      ₹{item.quantity_kg * item.price_at_time}
+    </p>
+  </div>
+</div>
+</>
+                                    
                                 ))}
                             </div>
                         </div>
+                        </>
                     )
                 })}
             </div>

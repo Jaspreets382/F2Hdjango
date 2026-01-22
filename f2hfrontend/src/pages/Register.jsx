@@ -81,8 +81,6 @@ function Register() {
     }
     return (
         <>
-            <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500' onClick={() => navigate('/')}><ChevronLeft size={40} strokeWidth={3} stroke='white' /></button>
-
             <div className="relative min-h-screen overflow-hidden bg-neutral-200">
                 <div>
                     <div className="absolute top-0 left-50 w-72 h-72 bg-green-300 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>

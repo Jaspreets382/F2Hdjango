@@ -1,6 +1,6 @@
 import { useContext, useState, useRef, useEffect } from "react"
-import { Search, Vegan, UserRound, ShoppingBasket, Menu } from "lucide-react"
-import { Link, useNavigate } from "react-router-dom"
+import { Search, Vegan, UserRound, ShoppingBasket, Menu, ChevronLeft } from "lucide-react"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { AuthContext } from "../Context/AuthContext"
 import { useLoading } from "../Context/Loading"
 function Navbar({ scrollToSection }) {
@@ -8,9 +8,20 @@ function Navbar({ scrollToSection }) {
     const { startLoading, stopLoading } = useLoading()
     const [userInfo, setUserInfo] = useState(false)
     const [open, setOpen] = useState(false)
-
+    const location=useLocation()
     const navigate = useNavigate()
     const userMenuRef = useRef(null)
+    const isHomePage = location.pathname === "/";
+
+    const handleLogoClick = () => {
+        if (!isHomePage) {
+            startLoading()
+            setTimeout(() => {
+                navigate(-1);
+                stopLoading()
+            }, 700);
+        }
+    };
     
 
     useEffect(() => {
@@ -66,21 +77,23 @@ function Navbar({ scrollToSection }) {
     }
     return (
         <>
-            <nav className='fixed top-0 w-full z-50 backdrop-blur-2xl bg-white/70 shadow-sm transition-all duration-300 '>
-                <div className=' sm:flex justify-between mx-6 flex items-center align-middle md:mx-16'>
+            <nav className=' fixed top-0 w-full z-50 backdrop-blur-2xl bg-white/70 shadow-sm transition-all duration-300 '>
+                <div className=' sm:flex justify-between px-2 flex items-center align-middle md:mx-16'>
 
                     <div className="logo gap-2 flex h-18 items-center mx-4 ">
-                        <div className=" w-8 h-8 md:w-10 md:h-10 bg-green-600 rounded-tr-lg rounded-bl-lg flex items-center justify-center text-white">
-                            <Vegan className="text-2xl md:text-4xl"></Vegan>
-                        </div>
+                        <button
+                        onClick={handleLogoClick}
+                         className={`w-8 h-8 md:w-10 md:h-10 bg-green-600 rounded-tr-lg rounded-bl-lg flex items-center justify-center text-white ${!isHomePage ? 'hover:opacity-70' : ''}`}>
+                           {isHomePage?( <Vegan className="text-2xl md:text-4xl"></Vegan>):(<ChevronLeft  className="text-2xl md:text-4xl" />)}
+                        </button>
                         <span className="text-2xl font-display font-bold md:text-4xl tracking-tight text-gray-900">Farm2<span className="text-green-600">Home</span></span>
                     </div>
 
-                    <div className="hidden md:flex nav-buttons mx-auto">
+                    <div className="hidden md:flex items-center nav-buttons mx-auto">
                         <Link to={'/'} className='w-full px-3 py-2 text-m font-medium text-gray-600'>Home</Link>
                         <Link className='w-full px-3 py-2 text-m font-medium text-gray-600'>Features</Link>
                         <Link to={'/products'} className='w-full px-3 py-2 text-m font-medium text-gray-600'>Products</Link>
-                        <a href="" className=' px-3 py-2 text-m font-medium text-gray-600'>How It Works</a>
+                        <a href="" className=' px-3 py-2 text-m font-medium text-gray-600 w-full'>How It Works</a>
                     </div>
 
                     <div className=" hidden md:flex items-center border-2 rounded-4xl  search">
@@ -102,7 +115,7 @@ function Navbar({ scrollToSection }) {
                         >
                             Logout
                         </button>)}
-                        <button className="md:hidden" onClick={() => setOpen(!open)}><Menu /> </button>
+                        <button className="w-full md:hidden" onClick={() => setOpen(!open)}><Menu /> </button>
                     </div>
                     <div
                         className={`

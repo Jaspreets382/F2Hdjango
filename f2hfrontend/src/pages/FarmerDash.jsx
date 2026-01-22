@@ -61,7 +61,6 @@ function FarmerDash() {
 
     return (
         <>
-            <button className='inline-block rounded-2xl fixed left-2 top-4 z-50 bg-green-500' onClick={() => navigate('/')}><ChevronLeft size={40} strokeWidth={3} stroke='white' /></button>
 
             <header className="relative py-10 px-6 text-center overflow-hidden rounded-3xl mb-8">
                 {/* Background Blobs for the Header */}

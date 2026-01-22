@@ -3,10 +3,10 @@ import { ShieldUser,ChartSpline,Network } from 'lucide-react'
 function MockUI() {
     return (
         <>
-            <section id="features" className="py-24 bg-white">
+            <section id="features" className="pl-4 py-24 bg-white">
                 <div className="max-w-7xl mx-auto pxc-4 sm:px-6 lg:px-8">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div className="order-2 lg:order-1 reveal">
+                        <div className=" order-2  lg:order-1 reveal">
                             <h2 className="font-display text-3xl md:text-4xl font-bold text-gray-900 mb-6">Everything you need to manage your harvest.</h2>
                             <p className="text-gray-600 text-lg mb-8">Farm2Home isn't just a store; it's a comprehensive ecosystem built for scalability and security.</p>
 

@@ -30,9 +30,9 @@ function DashSummary() {
     return (
     <>
 
-    <div className='border-2 border-white bg-linear-to-r from-yellow-200 via-lime-300 to-green-400 shadow-2xl mb-10 shadow-gray-500 rounded-2xl'>
-    <h1 className='text-4xl  text-center text-emerald-700 font-extrabold ' >Summary </h1>
-    <div className='h-auto p-4 mt-10   font-black flex gap-15' >
+    <div className='border-2 border-white bg-green-500  shadow-2xl mb-10 shadow-gray-500 rounded-2xl'>
+    <h1 className='text-4xl  text-center text-white font-extrabold pt-2 ' >Summary </h1>
+    <div className='h-auto p-4 mt-10    font-black flex gap-15' >
         <div>
     <span> Total items : {summary.total_items}</span> <br />
     <span> Pending items : {summary.pending_items}</span>   <br /> 
