@@ -33,9 +33,9 @@ SECRET_KEY =os.getenv("SECRET_KEY")
 DEBUG =os.getenv("DEBUG")=="True"
 
 ALLOWED_HOSTS = [
-    "f2hdjango.onrender.com",
-    "localhost",
     "127.0.0.1",
+    "localhost",
+    "f2hdjango.onrender.com",
 ]
 
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Leaf,X,Camera } from "lucide-react"
+import { Leaf,X,Camera,Loader2 } from "lucide-react"
 function ProductForm({ initialData, onSubmit, onCancel }) {
     const [form, setForm] = useState({
         name: "",
@@ -21,15 +21,16 @@ function ProductForm({ initialData, onSubmit, onCancel }) {
             })
         }
     }, [initialData])
+    const [isSubmitting,setIsSubmitting]=useState(false)
 
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
-   const handleSubmit = (e) => {
+   const handleSubmit = async(e) => {
     e.preventDefault()
-
+setIsSubmitting(true)
     const formData = new FormData()
 
     formData.append("name", form.name)
@@ -41,8 +42,13 @@ function ProductForm({ initialData, onSubmit, onCancel }) {
     if (form.product_image) {
         formData.append("photo", form.product_image)
     }
-
-    onSubmit(formData)   
+try{
+  
+    await onSubmit(formData)   
+}
+finally{
+    setIsSubmitting(false)
+}  
 }
 
     return (
@@ -147,9 +153,17 @@ function ProductForm({ initialData, onSubmit, onCancel }) {
                     </button>
                     <button
                         type="submit"
-                        className="flex-1 py-4 rounded-2xl bg-green-500 text-white font-black shadow-lg shadow-green-200 hover:bg-green-600 transition-all active:scale-95"
-                    >
-                        {initialData ? "Save Changes" : "Post Product"}
+                           disabled={isSubmitting}
+                        className="flex-1 items-center py-4 rounded-2xl bg-green-500 text-white font-black shadow-lg shadow-green-200 hover:bg-green-600 transition-all active:scale-95"
+                    >{isSubmitting ? (
+                            <> <div className="flex items-center gap-2 ">
+                                <Loader2 className="animate-spin ml-2 " size={30} />
+                                <span>Processing...</span>
+                                </div>
+                            </>
+                        ) : (
+                            <span>{initialData ? "Save Changes" : "Post Product"}</span>
+                        )}
                     </button>
                 </div>
             </form>

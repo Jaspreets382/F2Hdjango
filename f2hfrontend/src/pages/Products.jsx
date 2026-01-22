@@ -65,9 +65,6 @@ function Products() {
     }, 100);
   }
 
-  const handleCart = () => {
-    navigate('/cart')
-  }
   const handleAddToCart = (product) => {
     setIsAdding(product.id)
     setTimeout(() => {
@@ -163,7 +160,7 @@ function Products() {
         </div>
 
         {/* Mobile section */}
-<div className='py-4 md:hiddden'>
+<div className='py-4 md:hidden'>
   {user.is_farmer ? (<button
             className="  fixed z-50  bg-green-500 text-white  rounded-xl border-2 border-gray-300 shadow h-fit p-2 py-3 font-black px-6 cursor-pointer"
             onClick={() => {
@@ -211,9 +208,9 @@ function Products() {
           />
         )}
 
-        <div className=' grid grid-cols-1 md:grid-cols-4 min-h-screen  '>
+        <div className='overflow-y-scroll grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  max-h-screen md:min-h-screen  '>
           {products.map(product => (<>
-            <div className=' overflow-hidden border-2 border-gray-300 hover:drop-shadow-2xl ease-in-out duration-500 shadow-white rounded-2xl bg-white/60 backdrop-blur-lg max-h-fit w-2xs ml-10 '>
+            <div className=' my-5 border-2 border-gray-300 hover:drop-shadow-2xl ease-in-out duration-500 shadow-white rounded-2xl bg-white/60 backdrop-blur-lg max-h-fit w-2xs ml-10 '>
               <div className=''>
                 <div className="absolute top-4 left-4 bg-green-500 text-white text-xs font-black px-3 py-1 rounded-full flex items-center gap-1">
                   <Leaf size={14} /> Fresh
@@ -243,10 +240,10 @@ function Products() {
 
                 {user.is_farmer ? (<div className='mt-2 flex gap-4 '>
                   <button
-                    className='rounded-4xl bg-red-300 hover:bg-red-500 hover:rounded-md duration-275 ease-in text-white p-1 hover:p-2 font-black'
+                    className='rouded-md md:rounded-4xl active:scale-95 bg-red-500 hover:scale-105 duration-150 ease-in text-white p-1 px-2 font-black'
                     onClick={() => handleDelete(product.id)}>Delete
                   </button>
-                  <button className="rounded-4xl bg-gray-500  hover:bg-gray-800 hover:rounded-md duration-275 ease-in text-white p-1 hover:p-2 font-black px-4 mr-2"
+                  <button className="rounded-md md:rounded-4xl bg-gray-800  active:scale-95 duration-150 hover:scale-105 ease-in text-white p-1 hover:p-2 font-black px-4 mr-2"
                     onClick={() => {
                       setEditingProduct(product)
                       setShowForm(true)
